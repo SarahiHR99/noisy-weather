@@ -1,4 +1,9 @@
-export function City({name, temperature}) {
+interface CityProps {
+    name: string
+    temperature: number
+}
+
+export function City({ name, temperature }: CityProps) {
     return (
         <div>
             <div>

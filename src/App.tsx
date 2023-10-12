@@ -3,11 +3,18 @@ import { Day } from './Day'
 import { City } from './City'
 import { NextHours } from './NextHours'
 
+interface ForecastItem {
+  date: string
+  day: {
+    avgtemp_c: number
+  }
+}
+
 const weather_key = import.meta.env.VITE_WEATHER_KEY as string
 
 function App() {
   const [temp, setTemp] = useState(0)
-  const [forecast, setForecast] = useState([])
+  const [forecast, setForecast] = useState<ForecastItem[]>([])
   const [hours, setHours] = useState([])
   const [time, setTime] = useState("")
 
@@ -50,7 +57,7 @@ function App() {
       <div className="days card" > 
         {forecast.map((item) => (
           <Day
-            name= {item.date}
+            name={item.date}
             picture="☀️"
             temperature={item.day.avgtemp_c}
           /> 

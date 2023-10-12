@@ -1,7 +1,17 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Hour } from './Hour'
 
-export function NextHours({ allHours, currentHour }) {
+export interface HourType {
+  time: string
+  temp_c: number
+}
+
+interface NextHoursProps {
+  allHours: HourType[]
+  currentHour: string
+}
+
+export function NextHours({ allHours, currentHour }: NextHoursProps) {
 
   const currentDate = new Date(currentHour)
   const actualHour = currentDate.getHours()

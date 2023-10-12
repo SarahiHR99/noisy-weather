@@ -1,4 +1,9 @@
-export function Hour({time, temperature}) {
+interface HourProps {
+    time: string
+    temperature: number
+}
+
+export function Hour({time, temperature}: HourProps) {
     return (
     <div className="hour">
         <div>
