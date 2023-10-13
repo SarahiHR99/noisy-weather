@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Day } from './Day'
 import { City } from './City'
 import { NextHours } from './NextHours'
+import { CityInput } from './Input'
 
 interface ForecastItem {
   date: string
@@ -20,37 +21,45 @@ function App() {
   const [forecast, setForecast] = useState<ForecastItem[]>([])
   const [hours, setHours] = useState([])
   const [time, setTime] = useState("")
+  const [city, setCity] = useState("Quito")
 
   useEffect(() => {
-    fetch(`https://api.weatherapi.com/v1/current.json?key=${weather_key}&q=Quito`)
+    fetch(`https://api.weatherapi.com/v1/current.json?key=${weather_key}&q=${city}`)
       .then(r => r.json())
       .then(respuesta => {
         setTemp(respuesta.current.temp_c)
         setTime(respuesta.location.localtime)
       })
-  }, [])
+  }, [city])
 
   useEffect(() => {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weather_key}&q=Quito&days=5`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weather_key}&q=${city}&days=5`)
       .then(r => r.json())
       .then(respuesta => {
         setForecast(respuesta.forecast.forecastday)
       })
-  }, [])
+  }, [city])
 
   useEffect(() => {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weather_key}&q=Quito&days=1`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weather_key}&q=${city}&days=2`)
       .then(r => r.json())
       .then(respuesta => {
         console.log(respuesta)
-        setHours(respuesta.forecast.forecastday[0].hour)
+        // @ts-ignore
+        setHours([
+          ...respuesta.forecast.forecastday[0].hour,
+          ...respuesta.forecast.forecastday[1].hour
+        ])
       })
-  }, [])
+  }, [city])
 
   return (
     <>
+      <CityInput 
+        setCity={setCity}
+      />
       <City
-        name="Quito"
+        name={city}
         temperature={temp}
       />
       <NextHours

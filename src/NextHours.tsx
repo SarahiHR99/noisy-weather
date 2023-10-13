@@ -17,13 +17,11 @@ interface NextHoursProps {
 export function NextHours({ allHours, currentHour }: NextHoursProps) {
 
   const currentDate = new Date(currentHour)
-  const actualHour = currentDate.getHours()
 
   const filteredHours = useMemo(() => {
     return allHours.filter((hour) => {
       const iterationDate = new Date(hour.time)
-      const iterationHour = iterationDate.getHours()
-      if (actualHour <= iterationHour) {
+      if (currentDate <= iterationDate) {
         return true
       } else {
         return false
@@ -35,6 +33,7 @@ export function NextHours({ allHours, currentHour }: NextHoursProps) {
     <div className="hours card">
       {filteredHours.map((hour) =>(
         <Hour
+          key={hour.time}
           time={new Date(hour.time).getHours() + ":00"}
           picture={hour.condition.icon}
           temperature={hour.temp_c}
