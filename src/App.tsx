@@ -7,6 +7,9 @@ interface ForecastItem {
   date: string
   day: {
     avgtemp_c: number
+    condition: {
+      icon: string
+    }
   }
 }
 
@@ -22,7 +25,6 @@ function App() {
     fetch(`https://api.weatherapi.com/v1/current.json?key=${weather_key}&q=Quito`)
       .then(r => r.json())
       .then(respuesta => {
-        console.log(respuesta)
         setTemp(respuesta.current.temp_c)
         setTime(respuesta.location.localtime)
       })
@@ -40,6 +42,7 @@ function App() {
     fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weather_key}&q=Quito&days=1`)
       .then(r => r.json())
       .then(respuesta => {
+        console.log(respuesta)
         setHours(respuesta.forecast.forecastday[0].hour)
       })
   }, [])
@@ -57,8 +60,9 @@ function App() {
       <div className="days card" > 
         {forecast.map((item) => (
           <Day
+            key={item.date}
             name={item.date}
-            picture="☀️"
+            picture={item.day.condition.icon}
             temperature={item.day.avgtemp_c}
           /> 
         ))}

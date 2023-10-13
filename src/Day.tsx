@@ -14,9 +14,7 @@ export function Day({ name, picture, temperature }: DayProps) {
             <div>
                 {dayName}
             </div>
-            <h2>
-                {picture}
-            </h2>
+           <img src={picture}/>
             <div>
                 {temperature + "°"}
             </div>
